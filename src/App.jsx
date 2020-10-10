@@ -6,7 +6,11 @@ import ProductList from "./components/product-list/ProductList";
 import AuthenticatedRoute from "./components/authenticatedroute/AuthenticatedRoute";
 
 function App() {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const onLogin = (loggeInUser) => {
+    localStorage.setItem("user", JSON.stringify(loggeInUser));
+    setUser(loggeInUser);
+  };
   return (
     <div className="App">
       {/* We want a header that will appear in every screen */}
@@ -21,9 +25,7 @@ function App() {
         {/* We don't wan't non-authenticated users to access the previous route! */}
         <Route
           path="/login"
-          component={(props) => (
-            <Login {...props} user={user} setUser={setUser} />
-          )}
+          render={(props) => <Login {...props} user={user} onLogin={onLogin} />}
         />
         <Redirect to="/products" />
       </Switch>

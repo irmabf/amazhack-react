@@ -4,7 +4,7 @@ import InputWithLabel from "./input-with-label/InputWithLabel";
 import { login } from "../../services/api.service";
 import { Redirect } from "react-router-dom";
 
-export default function Login({ user, setUser }) {
+export default function Login({ user, onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -12,7 +12,7 @@ export default function Login({ user, setUser }) {
   const onSubmit = (e) => {
     e.preventDefault();
     login(email, password)
-      .then((r) => setUser(r))
+      .then((user) => onLogin(user))
       .catch((e) => setError(e.response.data.message));
   };
 
